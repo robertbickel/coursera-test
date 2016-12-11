@@ -17,10 +17,14 @@ function  LunchCheckController($scope) {
     }else{
       var totalNumberOfItems = CountIndividualEntries($scope.userentry);
       $scope.totalValue = totalNumberOfItems;
-      if($scope.totalValue <= 3){
-        $scope.resultMessage = "Enjoy!";
+      if($scope.totalValue == 0){
+        $scope.resultMessage = "Please enter data first"
       }else{
-        $scope.resultMessage = "Too Much!";
+        if($scope.totalValue <= 3){
+          $scope.resultMessage = "Enjoy!";
+        }else{
+          $scope.resultMessage = "Too Much!";
+        }
       }
     }
   };
@@ -32,6 +36,7 @@ function CountIndividualEntries(rawString){
     for (var i = 0; i < arrayOfEntries.length; i++) {
       if(!isEmpty(arrayOfEntries[i])){totalEntries++};
     }
+    console.log(totalEntries);
   return totalEntries;
 }
 
