@@ -1,47 +1,85 @@
 (function () {
 'use strict';
 
-angular.module('LunchCheck', [])
-.controller('LunchCheckController', LunchCheckController);
+angular.module('ShoppingListCheckOff', [])
+.controller('ToBuyController', ToBuyController)
+.controller('AlreadyBoughtController', AlreadyBoughtController)
+.service('ShoppingListCheckOffService', ShoppingListCheckOffService);
 
-function  LunchCheckController($scope) {
+ToBuyController.$inject = ['ShoppingListCheckOffService'];
+function ToBuyController(ShoppingListCheckOffService) {
 
-  LunchCheckController.$inject = ['$scope'];
-  $scope.userentry = "";
-  $scope.resultMessage = "";
-  $scope.totalValue = 0;
+  var errorMessage = "";
+  var BuyList = this;
+  BuyList.itemsToBuy = ShoppingListCheckOffService.getItemsToBuy();
 
-  $scope.CountNumberOfItems = function () {
-    if(isEmpty($scope.userentry)){
-      $scope.resultMessage = "Please enter data first"
-    }else{
-      var totalNumberOfItems = CountIndividualEntries($scope.userentry);
-      $scope.totalValue = totalNumberOfItems;
-      if($scope.totalValue == 0){
-        $scope.resultMessage = "Please enter data first"
-      }else{
-        if($scope.totalValue <= 3){
-          $scope.resultMessage = "Enjoy!";
-        }else{
-          $scope.resultMessage = "Too Much!";
-        }
-      }
-    }
+  BuyList.RemoveItem = function (itemIndex) {
+    ShoppingListCheckOffService.removeItemToBuy(itemIndex);
+
+    var checkToBuyLength = ShoppingListCheckOffService.getNumberOfItemsToBuy();
+    if(checkToBuyLength==0){BuyList.errorMessage = "Everything is bought!";}
+
   };
+
 }
 
-function CountIndividualEntries(rawString){
-    var arrayOfEntries = rawString.split(',');
-    var totalEntries = 0;
-    for (var i = 0; i < arrayOfEntries.length; i++) {
-      if(!isEmpty(arrayOfEntries[i])){totalEntries++};
-    }
-    console.log(totalEntries);
-  return totalEntries;
+
+AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
+function AlreadyBoughtController(ShoppingListCheckOffService) {
+  var BoughtList = this;
+  var BoughtErrorMessage = "";
+
+  BoughtList.itemsBought = ShoppingListCheckOffService.getItemsBought();
+  BoughtList.BoughtErrorMessage = "Nothing bought yet.";
+
 }
 
-function isEmpty(string) {
-    return (string.length === 0 || !string.trim());
-};
+function ShoppingListCheckOffService() {
+  var service = this;
+
+  // List of shopping items
+  var itemsToBuy = [
+    {
+       name: "Milk",
+       quantity: "2"
+     },
+     {
+       name: "Eggs",
+       quantity: "6"
+     },
+     {
+       name: "Bread",
+       quantity: "3"
+     },
+     {
+       name: "Chocolate",
+       quantity: "5"
+     },
+     {
+       name: "Coffee",
+       quantity: "5"
+     }
+  ];
+  var itemsBought = [];
+
+  service.removeItemToBuy = function (itemIndex) {
+    var item = itemsToBuy[itemIndex];
+    itemsBought.push(item);
+    itemsToBuy.splice(itemIndex,1);
+   };
+
+   service.getNumberOfItemsToBuy = function () {
+     return itemsToBuy.length;
+   };
+
+  service.getItemsToBuy = function () {
+    return itemsToBuy;
+  };
+
+  service.getItemsBought = function () {
+    return itemsBought;
+  };
+
+}
 
 })();
