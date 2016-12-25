@@ -1,2 +1,2 @@
-# coursera-test/Module1-Solution
-test repo for coursera - assignment 2
+# coursera-test/Module3-Solution
+test repo for coursera - assignment 3
