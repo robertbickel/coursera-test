@@ -53,7 +53,7 @@ function NarrowItDownController(MenuSearchService) {
 
   NarrowedDownList.onRemove = function(index){
     NarrowedDownList.found.splice(index, 1);
-    if (  NarrowedDownList.found.length == 0){NarrowedDownList.message = "Nothing found";}
+    if ( NarrowedDownList.found.length == 0){NarrowedDownList.message = "Nothing found";}
   };
 
 }
