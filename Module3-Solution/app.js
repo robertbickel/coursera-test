@@ -19,29 +19,28 @@ function foundItemsDirective() {
     controllerAs: 'foundItemsController',
     bindToController: true
   };
-
   return ddo;
 }
 
-  FoundItemsController.$inject = [];
-  function FoundItemsController(){
-    var foundItemsController = this;
-  }
+FoundItemsController.$inject = [];
+function FoundItemsController(){
+  var foundItemsController = this;
+}
 
 NarrowItDownController.$inject = ['MenuSearchService'];
 function NarrowItDownController(MenuSearchService) {
 
-    var NarrowedDownList = this;
-    NarrowedDownList.found = [];
-    NarrowedDownList.message = '';
-    NarrowedDownList.searchTerm = '';
-    NarrowedDownList.getMenuItems = function (searchTerm) {
+  var NarrowedDownList = this;
+  NarrowedDownList.found = [];
+  NarrowedDownList.message = '';
+  NarrowedDownList.searchTerm = '';
+  NarrowedDownList.getMenuItems = function (searchTerm) {
 
-      if(searchTerm === ""){
-        NarrowedDownList.found = [];
-        NarrowedDownList.message = "Nothing found";
-      }else{
-        MenuSearchService.getMatchedMenuItems(searchTerm).then(function(foundData){
+    if(searchTerm === ""){
+      NarrowedDownList.found = [];
+      NarrowedDownList.message = "Nothing found";
+    }else{
+      MenuSearchService.getMatchedMenuItems(searchTerm).then(function(foundData){
         NarrowedDownList.found = foundData;
         if (foundData.length > 0){
           NarrowedDownList.message = "Menu Items Matching Criteria";
@@ -50,17 +49,14 @@ function NarrowItDownController(MenuSearchService) {
         }
       });
     };
-
   }
 
   NarrowedDownList.onRemove = function(index){
     NarrowedDownList.found.splice(index, 1);
+    if (  NarrowedDownList.found.length == 0){NarrowedDownList.message = "Nothing found";}
   };
 
-
-
 }
-
 
 MenuSearchService.$inject = ['$http', 'ApiBasePath'];
 function MenuSearchService($http, ApiBasePath) {
@@ -74,19 +70,10 @@ function MenuSearchService($http, ApiBasePath) {
        var foundItems = result.data.menu_items;
        //console.log(foundItems);
        return narrrowItDown(foundItems, searchTerm);
-
      });
-
     };
 
     function narrrowItDown(foundItems, searchTerm){
-        //
-        // for (var i = Auction.auctions.length - 1; i >= 0; i--) {
-        //     Auction.auctions[i].seconds--;
-        //     if (Auction.auctions[i].seconds < 0) {
-        //         Auction.auctions.splice(i, 1);
-        //     }
-        //
         for(var i=foundItems.length - 1;i >= 0;i--){
 
           var str1 = foundItems[i].description.toString();
@@ -100,9 +87,7 @@ function MenuSearchService($http, ApiBasePath) {
         return foundItems;
     } //end functionnarrowItDown
 
-
 //end MenuSearchService
 }
-
 
 })();
