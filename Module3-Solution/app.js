@@ -2,98 +2,107 @@
 'use strict';
 
 angular.module('NarrowItDownApp', [])
-.constant('ApiBasePath', "https://davids-restaurant.herokuapp.com");
 .controller('NarrowItDownController', NarrowItDownController)
-.service('MenuSearchService', MenuSearchService);
+.service('MenuSearchService', MenuSearchService)
+.constant('ApiBasePath', "https://davids-restaurant.herokuapp.com")
+.directive('foundItems', foundItemsDirective);
 
+function foundItemsDirective() {
+  var ddo = {
+    templateUrl: 'foundItems.html',
+    restrict: 'E',
+    scope: {
+      foundItems: '<',
+      onRemove: '&'
+    },
+    controller: FoundItemsController,
+    controllerAs: 'foundItemsController',
+    bindToController: true
+  };
 
-//
-//   menu.logMenuItems = function (shortName) {
-//     var promise = MenuCategoriesService.getMenuForCategory(shortName);
-//
-//     promise.then(function (response) {
-//       console.log(response.data);
-//     })
-//     .catch(function (error) {
-//       console.log(error);
-//     })
-//   };
-//
-// }
-//
+  return ddo;
+}
 
+  FoundItemsController.$inject = [];
+  function FoundItemsController(){
+    var foundItemsController = this;
+  }
 
 NarrowItDownController.$inject = ['MenuSearchService'];
 function NarrowItDownController(MenuSearchService) {
 
     var NarrowedDownList = this;
-    var promise = MenuSearchService.getMatchedMenuItems();
-    promise.then(function (response) {
-      NarrowedDownList.foundItems = response.data;
-    })
-    .catch(function (error) {
-      console.log("Something went terribly wrong.");
-    });
+    NarrowedDownList.found = [];
+    NarrowedDownList.message = '';
+    NarrowedDownList.searchTerm = '';
+    NarrowedDownList.getMenuItems = function (searchTerm) {
 
+      if(searchTerm === ""){
+        NarrowedDownList.found = [];
+        NarrowedDownList.message = "Nothing found";
+      }else{
+        MenuSearchService.getMatchedMenuItems(searchTerm).then(function(foundData){
+        NarrowedDownList.found = foundData;
+        if (foundData.length > 0){
+          NarrowedDownList.message = "Menu Items Matching Criteria";
+        }else{
+          NarrowedDownList.message = "Nothing found";
+        }
+      });
+    };
 
+  }
+
+  NarrowedDownList.onRemove = function(index){
+    NarrowedDownList.found.splice(index, 1);
   };
 
+
+
 }
+
 
 MenuSearchService.$inject = ['$http', 'ApiBasePath'];
-function MenuSearchService() {
-  var service = this;
+function MenuSearchService($http, ApiBasePath) {
+  var MenuSearchService = this;
 
-  // List of shopping items
-  // var itemsToBuy = [
-  //   {
-  //      name: "Milk",
-  //      quantity: "2"
-  //    },
-  //    {
-  //      name: "Eggs",
-  //      quantity: "6"
-  //    },
-  //    {
-  //      name: "Bread",
-  //      quantity: "3"
-  //    },
-  //    {
-  //      name: "Chocolate",
-  //      quantity: "5"
-  //    },
-  //    {
-  //      name: "Coffee",
-  //      quantity: "5"
-  //    }
-  // ];
-  // var itemsBought = [];
-  //
-  // service.removeItemToBuy = function (itemIndex) {
-  //   var item = itemsToBuy[itemIndex];
-  //   itemsBought.push(item);
-  //   itemsToBuy.splice(itemIndex,1);
-  //  };
-  //
-
-  service.getMatchedMenuItems = function () {
-     var response = $http({
+  MenuSearchService.getMatchedMenuItems = function (searchTerm) {
+     return $http({
        method: "GET",
-       url: (ApiBasePath + "/menu_items.json")
+       url: (ApiBasePath + "/menu_items.json"),
+     }).then(function (result){
+       var foundItems = result.data.menu_items;
+       //console.log(foundItems);
+       return narrrowItDown(foundItems, searchTerm);
+
      });
 
-     // process result and only keep items that match
-     //var foundItems = ...
+    };
+
+    function narrrowItDown(foundItems, searchTerm){
+        //
+        // for (var i = Auction.auctions.length - 1; i >= 0; i--) {
+        //     Auction.auctions[i].seconds--;
+        //     if (Auction.auctions[i].seconds < 0) {
+        //         Auction.auctions.splice(i, 1);
+        //     }
+        //
+        for(var i=foundItems.length - 1;i >= 0;i--){
+
+          var str1 = foundItems[i].description.toString();
+          var str2 = searchTerm.toString();
+          str1 = str1.toLowerCase();
+
+          if(str1.toLowerCase().indexOf(str2.toLowerCase()) == -1){
+           foundItems.splice(i, 1);
+          };
+        };
+        return foundItems;
+    } //end functionnarrowItDown
 
 
-     return foundItems;
-
-   };
-  //service.getItemsToBuy = function () {
-  //   return itemsToBuy;
-  // };
-
-
+//end MenuSearchService
 }
+
 
 })();
