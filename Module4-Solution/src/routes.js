@@ -1,7 +1,7 @@
 (function () {
 'use strict';
 
-angular.module('ShoppingList')
+angular.module('MenuApp')
 .config(RoutesConfig);
 
 RoutesConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
@@ -25,35 +25,45 @@ function RoutesConfig($stateProvider, $urlRouterProvider) {
     templateUrl: 'src/menuapp/templates/categories.template.html',
     controller: 'CategoriesController as mainList',
     resolve: {
-      items: ['MenuDataService', function (MenuDataService) {
+      categories: ['MenuDataService', function (MenuDataService) {
         return MenuDataService.getAllCategories();
       }]
     }
   })
 
-
-  // // Premade list page
-  // .state('mainList', {
-  //   url: '/main-list',
-  //   templateUrl: 'src/shoppinglist/templates/main-shoppinglist.template.html',
-  //   controller: 'MainShoppingListController as mainList',
-  //   resolve: {
-  //     items: ['ShoppingListService', function (ShoppingListService) {
-  //       return ShoppingListService.getItems();
+  .state('items', {
+    url: '/items/{categoryShortName}',
+    templateUrl: 'src/menuapp/templates/items.template.html',
+    controller: 'ItemDetailController as itemDetail',
+    resolve: {
+  //     items: ['MenuDataService', function (MenuDataService) {
+  //       return MenuDataService.getItemsForCategory(categoryShortName);
   //     }]
   //   }
-  // })
-  //
-  // .state('itemDetail', {
-  //   url: '/item-detail/{itemId}',
-  //   templateUrl: 'src/shoppinglist/templates/item-detail.template.html',
+  // });
+      items: ['$stateParams', 'MenuDataService',
+            function ($stateParams, MenuDataService) {
+              console.log("test",$stateParams.categoryShortName);
+              return MenuDataService.getItemsForCategory($stateParams.categoryShortName)
+                .then(function (items) {
+                  return items;
+                });
+            }]
+    }
+  });
+
+
+  // .state('items', {
+  //   url: '/items/{categoryShortName}',
+  //   templateUrl: 'src/menuapp/templates/items.template.html',
   //   controller: 'ItemDetailController as itemDetail',
   //   resolve: {
-  //     item: ['$stateParams', 'ShoppingListService',
-  //           function ($stateParams, ShoppingListService) {
-  //             return ShoppingListService.getItems()
+  //     item: ['$stateParams', 'MenuDataService',
+  //           function ($stateParams, MenuDataService) {
+  //             console.log("test",$stateParams);
+  //             return MenuDataService.getItemsForCategory()
   //               .then(function (items) {
-  //                 return items[$stateParams.itemId];
+  //                 return items[$stateParams.categoryShortName];
   //               });
   //           }]
   //   }
