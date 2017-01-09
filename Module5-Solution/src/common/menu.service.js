@@ -16,6 +16,19 @@ function MenuService($http, ApiPath) {
   };
 
 
+  service.getItemByShortName = function(shortName){
+    //console.log("test",ApiPath + '/menu_items/' + shortName + '.json');
+    return $http.get(ApiPath + '/menu_items/' + shortName + '.json');
+  }
+
+  service.isValidMenuItem = function(shortName) {
+    return service.getItemByShortName(shortName).then(function (response) {
+      return true;
+    }, function(error){
+      return false;
+    });
+  }
+
   service.getMenuItems = function (category) {
     var config = {};
     if (category) {

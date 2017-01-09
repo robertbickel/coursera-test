@@ -5,6 +5,64 @@ body {
   font-family: 'Oxygen', sans-serif;
 }
 
+.ng-touched.ng-valid{
+  border: 2px green solid;
+}
+
+.ng-touched.ng-invalid{
+  border: 2px red solid;
+}
+
+.blktext{
+  color: #000;
+  font-size: 16px;
+}
+
+div.signup1 {
+    float: left;
+    clear: left;
+    width: 120px;
+    margin: auto;
+    /*border: 3px solid #73AD21;*/
+}
+
+div.userdetails{
+  float: left;
+  font-weight: bold;
+  clear: left;
+  width: 600px;
+  margin: auto;
+  color: #fff;
+}
+
+div.signup3 {
+    float: left;
+    font-weight: bold;
+    clear: left;
+    width: 300px;
+    margin: auto;
+    color: green;
+}
+
+span.error {
+    font-size: 16px;
+    color: red;
+    /*border: 3px solid #73AD21;*/
+}
+
+span.good {
+    font-size: 16px;
+    color: green;
+    /*border: 3px solid #73AD21;*/
+}
+
+div.signup2 {
+    float: left;
+    max-width: 600px;
+    margin: auto;
+    /*border: 3px solid #73AD21;*/
+}
+
 .initial-loading {
   margin-top: 60px;
 }

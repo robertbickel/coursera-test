@@ -1,0 +1,32 @@
+<div class="container">
+
+<h2>User Details</h2>
+
+<div class="userdetails" ng-show="ctrl.user.firstName">
+  First Name: {{ctrl.user.firstName}}
+</div>
+
+<div class="userdetails" ng-show="ctrl.user.lastName">
+  First Name: {{ctrl.user.lastName}}
+</div>
+
+<div class="userdetails" ng-show="ctrl.user.emailAddress">
+  Email Address: {{ctrl.user.emailAddress}}
+</div>
+
+<div class="userdetails" ng-show="ctrl.user.phoneNumber">
+  Phone Number: {{ctrl.user.phoneNumber}}
+</div>
+
+<div class="userdetails" ng-show="ctrl.user.favouriteDish">
+  Favourite Dish:
+</div>
+<menu-item menu-item="ctrl.menuItem" ng-show="ctrl.user.favouriteDish"></menu-item>
+
+
+
+<div class="userdetails" ng-hide="ctrl.user.firstName">
+ Sorry, you haven't signed up yet, <a ui-sref="signup">Click Here</a> to sign up now
+</div>
+
+</div>

@@ -1,0 +1,81 @@
+
+
+<div class="container">
+
+<form name="signUpForm" novalidate>
+
+<h2>Please enter your details to sign up:</h2>
+
+<div class="signup1">
+  First Name:
+</div>
+<div class="signup2">
+  <input type="text" name="firstName" class="blktext"
+  ng-model="ctrl.user.firstName"
+  required><span class="error" ng-if="signUpForm.firstName.$error.required && signUpForm.firstName.$touched">
+    First Name is Required
+  </span>
+
+</div>
+
+<div class="signup1">
+  Last Name:
+</div>
+<div class="signup2">
+  <input type="text" name="lastName" class="blktext"
+  ng-model="ctrl.user.lastName"
+  required><span class="error" ng-if="signUpForm.lastName.$error.required && signUpForm.lastName.$touched">
+    Last Name is Required
+  </span>
+
+</div>
+
+<div class="signup1">
+  Email Address:
+</div>
+<div class="signup2">
+  <input type="email" name="emailAddress" class="blktext"
+  ng-model="ctrl.user.emailAddress"
+  required><span class="error" ng-if="signUpForm.emailAddress.$invalid && signUpForm.emailAddress.$touched">
+    Email is Required (handle@domain format)
+  </span>
+
+</div>
+
+<div class="signup1">
+  Phone Number:
+</div>
+<div class="signup2">
+  <input type="text" name="phoneNumber" class="blktext"
+  ng-model="ctrl.user.phoneNumber"
+  pattern="(\d{3})-(\d{3})-(\d{4})"
+  required><span class="error" ng-if="signUpForm.phoneNumber.$invalid && signUpForm.phoneNumber.$touched">
+    Phone Number is Required (format ###-###-####)
+  </span>
+
+</div>
+
+<div class="signup1">
+  Favourite Dish:
+</div>
+<div class="signup2">
+  <input type="text" name="favouriteDish" class="blktext"
+  ng-model="ctrl.user.favouriteDish"
+  ng-change="ctrl.isValidMenuItem()"
+  ><span class="error" ng-if="ctrl.dishDoesntExist"> <!--ng-if="signUpForm.favouriteDish.$invalid && signUpForm.favouriteDish.$touched"-->
+    Favourite Dish is Required and must be a valid Id
+  </span>
+  <span class="good" ng-if="!ctrl.dishDoesntExist"> <!--ng-if="signUpForm.favouriteDish.$invalid && signUpForm.favouriteDish.$touched"-->
+    ID is Valid
+  </span>
+</div>
+
+<div class="signup3" ng-show="ctrl.isRegistered">
+  <span>Registration Successful.  <a ui-sref="userDetails">Click Here</a> to view your registration details</span>
+</div>
+
+<div class="signup1" ng-show="!ctrl.isRegistered">
+  <button class="blktext" ng-disabled="signUpForm.$invalid || dishDoesntExist" ng-click="ctrl.go()">Submit</button>
+</div>
+</form>
+</div>
