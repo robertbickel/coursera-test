@@ -11,12 +11,15 @@
     ctrl.dishDoesntExist = true;
 
     ctrl.go = function () {
-      SignUpService.registerUser(ctrl.user);
-      console.log("registered user!");
-      ctrl.isRegistered = true;
+      if(!ctrl.dishDoesntExist){
+        SignUpService.registerUser(ctrl.user);
+        console.log("registered user!");
+        ctrl.isRegistered = true;
+      }
     }
 
     ctrl.isValidMenuItem = function(){
+      ctrl.user.favouriteDish = ctrl.user.favouriteDish.toUpperCase();
       ctrl.dishDoesntExist = true;
       if(!ctrl.user.favouriteDish){
 

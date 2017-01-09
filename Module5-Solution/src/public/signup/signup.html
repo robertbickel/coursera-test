@@ -72,7 +72,7 @@
       <input type="text" name="favouriteDish" class="blktext"
       ng-model="ctrl.user.favouriteDish"
       ng-change="ctrl.isValidMenuItem()"
-      ><span class="error" ng-if="ctrl.dishDoesntExist && signUpForm.favouriteDish.$touched">
+      required><span class="error" ng-if="ctrl.dishDoesntExist && signUpForm.favouriteDish.$touched">
         No such menu number exists
       </span>
       <span class="good" ng-if="!ctrl.dishDoesntExist">
@@ -80,11 +80,11 @@
       </span>
     </div>
 
-    <div class="signup3" ng-show="ctrl.isRegistered">
+    <div class="userdetails" ng-show="ctrl.isRegistered">
       <span>Registration Successful.  <a ui-sref="userDetails">Click Here</a> to view your registration details</span>
     </div>
 
-    <div class="signup1" ng-show="!ctrl.isRegistered">
+    <div class="signup3" ng-show="!ctrl.isRegistered">
       <button class="blktext" ng-disabled="signUpForm.$invalid || dishDoesntExist" ng-click="ctrl.go()">Submit</button>
     </div>
 
