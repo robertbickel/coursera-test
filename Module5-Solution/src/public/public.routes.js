@@ -61,10 +61,7 @@ function routeConfig ($stateProvider) {
       templateUrl: 'src/public/signup/signup.html',
       controller: 'SignUpController as ctrl'
     })
-
     ;
-
-
 
 }
 })();

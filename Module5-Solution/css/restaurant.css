@@ -5,14 +5,6 @@ body {
   font-family: 'Oxygen', sans-serif;
 }
 
-.ng-touched.ng-valid{
-  border: 2px green solid;
-}
-
-.ng-touched.ng-invalid{
-  border: 2px red solid;
-}
-
 .blktext{
   color: #000;
   font-size: 16px;
@@ -23,7 +15,6 @@ div.signup1 {
     clear: left;
     width: 120px;
     margin: auto;
-    /*border: 3px solid #73AD21;*/
 }
 
 div.userdetails{
@@ -47,13 +38,11 @@ div.signup3 {
 span.error {
     font-size: 16px;
     color: red;
-    /*border: 3px solid #73AD21;*/
 }
 
 span.good {
     font-size: 16px;
     color: green;
-    /*border: 3px solid #73AD21;*/
 }
 
 div.signup2 {
